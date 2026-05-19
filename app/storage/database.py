@@ -21,6 +21,7 @@ SessionLocal = sessionmaker(
 )
 
 def init_db():
+    # Load model modules so their tables are registered in Base.metadata.
     import app.storage.models
 
     Base.metadata.create_all(bind = engine)
