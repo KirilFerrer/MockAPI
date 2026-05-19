@@ -1,0 +1,52 @@
+{% if endpoints %}
+  <div class="ep-list">
+    {% for endpoint in endpoints %}
+      <details class="ep-card js-expandable-card">
+        <summary>
+          <span class="badge">{{ endpoint.method }}</span>
+          <span class="ep-path">{{ endpoint.path }}</span>
+          <span class="ep-desc">{{ endpoint.name or endpoint.description or "sin nombre" }}</span>
+        </summary>
+
+        <div class="ep-panel expandable-panel">
+          <div class="ep-panel-inner expandable-panel-inner">
+            <div class="ep-detail">
+              <div class="detail-box">
+                <p class="detail-title">Información</p>
+                <dl class="detail-list">
+                  <div>
+                    <dt>ID</dt>
+                    <dd>{{ endpoint.id }}</dd>
+                  </div>
+                  <div>
+                    <dt>Nombre</dt>
+                    <dd>{{ endpoint.name or "sin nombre" }}</dd>
+                  </div>
+                  <div>
+                    <dt>Método</dt>
+                    <dd>{{ endpoint.method }}</dd>
+                  </div>
+                  <div>
+                    <dt>Path</dt>
+                    <dd>{{ endpoint.path }}</dd>
+                  </div>
+                  <div>
+                    <dt>Descripción</dt>
+                    <dd>{{ endpoint.description or "sin descripción" }}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div class="detail-box">
+                <p class="detail-title">Schema</p>
+                <pre class="schema-block">{{ endpoint.schema | tojson(indent=2) }}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty">Todavía no hay endpoints guardados.</div>
+{% endif %}

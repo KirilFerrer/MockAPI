@@ -1,0 +1,48 @@
+{% if schemas %}
+  <div class="schema-list">
+    {% for schema in schemas %}
+      <details class="schema-card js-expandable-card">
+        <summary>
+          <span class="badge">JSON</span>
+          <span class="schema-name">{{ schema.name }}</span>
+          <span class="schema-meta">{{ schema.definition|length }} campos</span>
+        </summary>
+
+        <div class="schema-panel expandable-panel">
+          <div class="schema-panel-inner expandable-panel-inner">
+            <div class="schema-detail">
+              <div class="detail-box">
+                <p class="detail-title">Información</p>
+                <dl class="detail-list">
+                  <div>
+                    <dt>ID</dt>
+                    <dd>{{ schema.id }}</dd>
+                  </div>
+                  <div>
+                    <dt>Nombre</dt>
+                    <dd>{{ schema.name }}</dd>
+                  </div>
+                  <div>
+                    <dt>Campos</dt>
+                    <dd>{{ schema.definition|length }}</dd>
+                  </div>
+                  <div>
+                    <dt>Creado</dt>
+                    <dd>{{ schema.created_at or "sin fecha" }}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div class="detail-box">
+                <p class="detail-title">Definición</p>
+                <pre class="schema-block">{{ schema.definition | tojson(indent=2) }}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty">Todavía no hay schemas guardados.</div>
+{% endif %}

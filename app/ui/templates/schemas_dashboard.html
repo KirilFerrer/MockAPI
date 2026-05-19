@@ -1,0 +1,39 @@
+{# Dashboard de schemas reutilizables guardados. #}
+{% extends "base.html" %}
+
+{% block title %}Schemas - API Studio{% endblock %}
+
+{% block content %}
+<main>
+  <h1 class="page-title">Schemas</h1>
+  <p class="page-sub">Plantillas reutilizables para crear endpoints mock.</p>
+
+  <section class="stats stats-three">
+    <div class="stat">
+      <p class="stat-n">{{ schemas|length }}</p>
+      <p class="stat-l">schemas</p>
+    </div>
+    <div class="stat">
+      <p class="stat-n">{% if schemas %}{{ schemas[0].definition|length }}{% else %}0{% endif %}</p>
+      <p class="stat-l">campos del último</p>
+    </div>
+    <div class="stat">
+      <p class="stat-n">MVP</p>
+      <p class="stat-l">reutilización</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-hd">
+      <h2>Schemas guardados</h2>
+      <a href="/web/create_endpoint_form" class="btn-sm">crear schema</a>
+    </div>
+
+    {% include "components/schema_list.html" %}
+  </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/expandable_cards.js') }}"></script>
+{% endblock %}

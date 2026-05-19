@@ -1,0 +1,43 @@
+{# Dashboard de endpoints mock registrados. #}
+{% extends "base.html" %}
+
+{% block title %}Endpoints - API Studio{% endblock %}
+
+{% block content %}
+<main>
+  <h1 class="page-title">Endpoints</h1>
+  <p class="page-sub">Endpoints mock guardados en la base de datos.</p>
+
+  <section class="stats">
+    <div class="stat">
+      <p class="stat-n">{{ endpoints|length }}</p>
+      <p class="stat-l">endpoints</p>
+    </div>
+    <div class="stat">
+      <p class="stat-n">{{ endpoints|selectattr("method", "equalto", "GET")|list|length }}</p>
+      <p class="stat-l">GET</p>
+    </div>
+    <div class="stat">
+      <p class="stat-n">{{ endpoints|selectattr("method", "equalto", "POST")|list|length }}</p>
+      <p class="stat-l">POST</p>
+    </div>
+    <div class="stat">
+      <p class="stat-n">{{ endpoints|rejectattr("method", "in", ["GET", "POST"])|list|length }}</p>
+      <p class="stat-l">otros</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-hd">
+      <h2>Endpoints registrados</h2>
+      <a href="/web/create_endpoint_form" class="btn-sm">crear endpoint</a>
+    </div>
+
+    {% include "components/endpoint_list.html" %}
+  </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/expandable_cards.js') }}"></script>
+{% endblock %}

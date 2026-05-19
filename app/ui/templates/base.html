@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{% block title %}API Studio{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}"/>
+</head>
+<body>
+{% set current_path = request.url.path %}
+
+<nav>
+  <a href="/web/" class="logo">api-studio</a>
+  <a href="/web/" class="{% if current_path == '/web/' %}active{% endif %}">home</a>
+  <a href="/web/endpoints" class="{% if current_path.startswith('/web/endpoints') or current_path.startswith('/web/create_endpoint_form') %}active{% endif %}">endpoints</a>
+  <a href="/web/schemas" class="{% if current_path.startswith('/web/schemas') %}active{% endif %}">schemas</a>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>api-studio</footer>
+<div id="toast"></div>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
