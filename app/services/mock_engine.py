@@ -1,4 +1,4 @@
-# Construye respuestas mock a partir de schemas guardados.
+# Builds mock responses from stored schemas.
 from dataclasses import dataclass
 from typing import Any
 

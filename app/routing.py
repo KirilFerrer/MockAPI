@@ -1,4 +1,4 @@
-# Agrupa y registra los routers publicos de la aplicacion.
+# Groups and registers the application's public routers.
 from fastapi import APIRouter
 
 from app.api.admin import endpoints as admin_endpoints

@@ -1,4 +1,4 @@
-# Centraliza rutas y variables de configuracion de MockAPI.
+# Centralizes MockAPI paths and configuration values.
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 

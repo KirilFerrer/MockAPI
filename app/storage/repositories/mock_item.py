@@ -1,4 +1,4 @@
-# Contiene operaciones de persistencia para items del runtime mock.
+# Contains persistence operations for mock runtime items.
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 

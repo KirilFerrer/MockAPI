@@ -1,4 +1,4 @@
-# Registra endpoints mock a partir de datos leidos por la capa HTTP.
+# Registers mock endpoints from data read by the HTTP layer.
 from typing import Any
 
 from sqlalchemy.orm import Session

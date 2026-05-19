@@ -1,4 +1,4 @@
-# Renderiza las paginas HTML de administracion de MockAPI.
+# Renders MockAPI admin HTML pages.
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session

@@ -1,4 +1,4 @@
-# Expone rutas administrativas para gestionar el estado persistido de mocks.
+# Exposes admin routes for managing persisted mock state.
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 

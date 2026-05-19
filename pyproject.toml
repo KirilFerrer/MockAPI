@@ -1,4 +1,4 @@
-# Declara metadatos y dependencias principales del proyecto Python.
+# Declares the project's Python metadata and main dependencies.
 [project]
 name = "mockapi"
 version = "0.1.0"

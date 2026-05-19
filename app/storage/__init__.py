@@ -1,1 +1,1 @@
-# Marca el paquete encargado de persistencia y acceso a datos.
+# Marks the package responsible for persistence and data access.

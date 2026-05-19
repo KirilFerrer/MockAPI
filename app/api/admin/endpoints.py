@@ -1,4 +1,4 @@
-# Expone rutas administrativas para registrar y gestionar endpoints mock.
+# Exposes admin routes for registering and managing mock endpoints.
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 

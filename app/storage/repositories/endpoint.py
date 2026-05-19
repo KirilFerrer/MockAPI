@@ -1,4 +1,4 @@
-# Contiene operaciones de persistencia para endpoints mock.
+# Contains persistence operations for mock endpoints.
 from dataclasses import dataclass
 import re
 

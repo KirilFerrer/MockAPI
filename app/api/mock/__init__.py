@@ -1,1 +1,1 @@
-# Rutas del runtime mock publico.
+# Public mock runtime routes.

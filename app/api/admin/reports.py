@@ -1,1 +1,1 @@
-# Deberia exponer rutas para consultar reportes de uso, validacion y errores.
+# Should expose routes for usage, validation, and error reports.

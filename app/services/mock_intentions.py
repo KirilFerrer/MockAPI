@@ -1,4 +1,4 @@
-# Generadores semanticos para enriquecer respuestas mock sin nuevas dependencias.
+# Semantic generators for enriching mock responses without new dependencies.
 import re
 from dataclasses import dataclass
 from typing import Any, Callable

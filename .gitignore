@@ -1,4 +1,4 @@
-# Excluye archivos locales, generados y sensibles del control de versiones.
+# Exclude local, generated, and sensitive files from version control.
 # Python bytecode / cache
 __pycache__/
 *.py[cod]

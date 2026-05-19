@@ -1,1 +1,1 @@
-# Marca el paquete de servicios con logica de aplicacion.
+# Marks the service package for application logic.

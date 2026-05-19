@@ -1,4 +1,4 @@
-# Crea la aplicacion FastAPI, inicializa recursos y registra routers.
+# Creates the FastAPI application, initializes resources, and registers routers.
 from contextlib import asynccontextmanager
 
 from app.routing import router as app_routing

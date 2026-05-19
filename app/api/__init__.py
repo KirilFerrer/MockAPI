@@ -1,1 +1,1 @@
-# Marca el paquete de routers HTTP de la aplicacion.
+# Marks the package for application HTTP routers.

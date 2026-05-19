@@ -1,4 +1,4 @@
-# Gestiona schemas mock a partir de datos leidos por la capa HTTP.
+# Manages mock schemas from data read by the HTTP layer.
 from typing import Any
 
 from sqlalchemy.orm import Session

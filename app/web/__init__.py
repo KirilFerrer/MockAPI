@@ -1,1 +1,1 @@
-# Marca el paquete de rutas HTML de administracion.
+# Marks the package for admin HTML routes.

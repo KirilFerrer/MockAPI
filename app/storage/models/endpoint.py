@@ -1,4 +1,4 @@
-# Define la tabla que guarda cada endpoint mock registrado.
+# Defines the table that stores each registered mock endpoint.
 from sqlalchemy import String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

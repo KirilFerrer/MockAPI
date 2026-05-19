@@ -1,4 +1,4 @@
-# Expone rutas administrativas para registrar y listar schemas reutilizables.
+# Exposes admin routes for registering and listing reusable schemas.
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 

@@ -1,4 +1,4 @@
-# Contiene operaciones de persistencia para schemas.
+# Contains persistence operations for schemas.
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 

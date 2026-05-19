@@ -1,4 +1,4 @@
-# Simula recursos mock persistentes a partir de endpoints registrados.
+# Simulates persistent mock resources from registered endpoints.
 from dataclasses import dataclass
 from typing import Any, Mapping
 

@@ -1,4 +1,4 @@
-# Define la tabla que guarda items persistidos del runtime mock.
+# Defines the table that stores persisted mock runtime items.
 from datetime import datetime
 
 from sqlalchemy import DateTime, Integer, JSON, String, UniqueConstraint

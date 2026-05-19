@@ -1,4 +1,4 @@
-# Define la tabla que guarda definiciones JSON de schemas.
+# Defines the table that stores JSON schema definitions.
 from datetime import datetime
 
 from sqlalchemy import DateTime, Integer, JSON, String
