@@ -1,0 +1,60 @@
+<div class="form-grid js-endpoint-form">
+  <div>
+    <div class="card">
+      <p class="card-title">Configuración</p>
+
+      <div class="field">
+        <label>Nombre</label>
+        <input type="text" class="js-ep-name" placeholder="Nombre del endpoint"/>
+      </div>
+
+      <div class="field row2">
+        <div>
+          <label>Método</label>
+          <select class="js-ep-method">
+            <option>GET</option>
+            <option selected>POST</option>
+            <option>PUT</option>
+            <option>PATCH</option>
+            <option>DELETE</option>
+          </select>
+        </div>
+        <div>
+          <label>Path</label>
+          <input type="text" class="js-ep-path" placeholder="/tickets"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Descripción</label>
+        <input type="text" class="js-ep-desc" placeholder="Qué hace este endpoint"/>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Schema</p>
+
+      <div class="field">
+        <label>Plantilla</label>
+        <div class="schema-picker js-schema-picker">
+          <button class="schema-trigger js-schema-trigger" type="button">Crear nuevo schema</button>
+          <div class="schema-menu">
+            <input class="schema-search js-schema-search" type="text" placeholder="Buscar schema"/>
+            <div class="schema-options js-schema-options"></div>
+          </div>
+        </div>
+      </div>
+
+      {% include "components/schema_form.html" %}
+
+      <button class="btn-submit js-save-endpoint" type="button">Guardar endpoint</button>
+    </div>
+  </div>
+
+  <div class="preview-column">
+    <div class="card">
+      <p class="card-title">Preview JSON</p>
+      <pre class="preview-block js-preview">{}</pre>
+    </div>
+  </div>
+</div>
