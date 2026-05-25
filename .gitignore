@@ -72,3 +72,6 @@ uploads/
 media/
 tmp/
 temp/
+
+# Local reference / presentation documents
+docs/
