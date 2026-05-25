@@ -386,6 +386,6 @@
     return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
   }
 
-  window.MockAPI = window.MockAPI || {};
-  window.MockAPI.createSchemaForm = createSchemaForm;
+  window.mockAPI = window.mockAPI || {};
+  window.mockAPI.createSchemaForm = createSchemaForm;
 })();

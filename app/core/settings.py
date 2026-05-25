@@ -1,4 +1,4 @@
-# Centralizes MockAPI paths and configuration values.
+# Centralizes mockAPI paths and configuration values.
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         extra = "ignore",
     )
 
-    app_name: str = "MockAPI"
+    app_name: str = "mockAPI"
     db_name: str = "mockapi.db"
 
     base_dir: Path = BASE_DIR

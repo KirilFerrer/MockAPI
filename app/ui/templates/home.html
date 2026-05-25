@@ -1,12 +1,12 @@
-{# Home page for the admin web interface. #}
+{# Overview page for the admin web interface. #}
 {% extends "base.html" %}
 
-{% block title %}API Studio{% endblock %}
+{% block title %}Vista general - mockAPI{% endblock %}
 
 {% block content %}
 <main>
-  <h1 class="page-title">Dashboard</h1>
-  <p class="page-sub">Vista general del proyecto MockAPI.</p>
+  <h1 class="page-title">Vista general</h1>
+  <p class="page-sub">Estado de los contratos mock, schemas reutilizables y métodos disponibles en el entorno local.</p>
 
   <section class="stats">
     <div class="stat">
@@ -27,7 +27,7 @@
     </div>
   </section>
 
-  <section class="dashboard-grid">
+  <section class="overview-grid">
     <div class="panel">
       <p class="panel-title">Estado</p>
       <div class="status-list">
@@ -41,7 +41,7 @@
         </div>
         <div class="status-row">
           <span>Interfaz web</span>
-          <span>MVP</span>
+          <span>operativa</span>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
             <span>{{ schemas|length }}</span>
           </div>
           <div class="status-row">
-            <span>Dashboard endpoints</span>
+            <span>Panel de endpoints</span>
             <span>listo</span>
           </div>
         </div>
@@ -78,15 +78,15 @@
     <div class="action-grid">
       <a href="/web/endpoints" class="action">
         <strong>Ver endpoints</strong>
-        <span>Abre el dashboard con la lista desplegable y los schemas guardados.</span>
+        <span>Revisa método, path y schema asociado para cada contrato registrado.</span>
       </a>
       <a href="/web/schemas" class="action">
         <strong>Ver schemas</strong>
-        <span>Consulta las plantillas reutilizables disponibles para endpoints.</span>
+        <span>Consulta las definiciones JSON disponibles para generar respuestas mock.</span>
       </a>
       <a href="/web/create_endpoint_form" class="action">
         <strong>Crear endpoint</strong>
-        <span>Registra un nuevo endpoint mock con método, path y schema.</span>
+        <span>Define un contrato HTTP y asócialo a un schema nuevo o existente.</span>
       </a>
     </div>
   </section>

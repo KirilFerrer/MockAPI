@@ -1,12 +1,12 @@
-{# Dashboard for stored reusable schemas. #}
+{# Page for stored reusable schemas. #}
 {% extends "base.html" %}
 
-{% block title %}Schemas - API Studio{% endblock %}
+{% block title %}Schemas reutilizables - mockAPI{% endblock %}
 
 {% block content %}
 <main>
-  <h1 class="page-title">Schemas</h1>
-  <p class="page-sub">Plantillas reutilizables para crear endpoints mock.</p>
+  <h1 class="page-title">Schemas reutilizables</h1>
+  <p class="page-sub">Definiciones JSON que describen la forma de las respuestas generadas por los endpoints mock.</p>
 
   <section class="stats stats-three">
     <div class="stat">
@@ -15,11 +15,11 @@
     </div>
     <div class="stat">
       <p class="stat-n">{% if schemas %}{{ schemas[0].definition|length }}{% else %}0{% endif %}</p>
-      <p class="stat-l">campos del último</p>
+      <p class="stat-l">claves del último</p>
     </div>
     <div class="stat">
-      <p class="stat-n">MVP</p>
-      <p class="stat-l">reutilización</p>
+      <p class="stat-n">JSON</p>
+      <p class="stat-l">formato</p>
     </div>
   </section>
 

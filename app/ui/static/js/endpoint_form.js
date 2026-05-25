@@ -34,7 +34,7 @@
 
   function initEndpointForm() {
     const form = document.querySelector('.js-endpoint-form');
-    if (!form || !window.MockAPI?.createSchemaForm) return;
+    if (!form || !window.mockAPI?.createSchemaForm) return;
 
     let savedSchemas = [];
     let selectedSchemaId = null;
@@ -50,7 +50,7 @@
     const schemaOptions = form.querySelector('.js-schema-options');
     const btnSaveSchema = form.querySelector('.js-save-schema');
     const btnSubmit = form.querySelector('.js-save-endpoint');
-    const schemaForm = window.MockAPI.createSchemaForm(form.querySelector('.js-schema-form'), {
+    const schemaForm = window.mockAPI.createSchemaForm(form.querySelector('.js-schema-form'), {
       onChange: updatePreview
     });
 

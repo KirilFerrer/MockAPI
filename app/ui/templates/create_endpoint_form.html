@@ -1,12 +1,12 @@
 {# Page for creating mock endpoints and previewing the submitted payload. #}
 {% extends "base.html" %}
 
-{% block title %}Endpoints - API Studio{% endblock %}
+{% block title %}Crear endpoint - mockAPI{% endblock %}
 
 {% block content %}
 <main class="endpoint-create-page">
-  <h1>Nuevo endpoint</h1>
-  <p class="page-sub">Define el nombre, método, path y el schema de campos.</p>
+  <h1 class="page-title">Crear endpoint mock</h1>
+  <p class="page-sub">Registra un contrato HTTP y asócialo a un schema existente o a una nueva definición JSON.</p>
 
   {% include "components/endpoint_form.html" %}
 </main>

@@ -1,4 +1,4 @@
-# Renders MockAPI admin HTML pages.
+# Renders mockAPI admin HTML pages.
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session

@@ -22,7 +22,7 @@
     });
   }
 
-  window.MockAPI = window.MockAPI || {};
-  window.MockAPI.initExpandableCards = initExpandableCards;
+  window.mockAPI = window.mockAPI || {};
+  window.mockAPI.initExpandableCards = initExpandableCards;
   document.addEventListener('DOMContentLoaded', () => initExpandableCards(document));
 })();

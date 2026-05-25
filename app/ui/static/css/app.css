@@ -33,7 +33,7 @@ h1,.page-title{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;margin-bot
 
 .section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .section-hd h2{font-size:.9rem;font-weight:600}
-.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem}
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem}
 .panel-title{font-family:var(--mono);font-size:.72rem;font-weight:600;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
 .status-list{display:grid;gap:.75rem;font-size:.84rem}
@@ -156,7 +156,7 @@ footer{border-top:1px solid var(--border);padding:1rem 2rem;text-align:center;fo
 @media(max-width:720px){
   nav{padding:0 1rem;gap:1rem}
   main{padding:2rem 1rem}
-  .stats,.stats-three,.dashboard-grid,.action-grid{grid-template-columns:1fr}
+  .stats,.stats-three,.overview-grid,.action-grid{grid-template-columns:1fr}
   .ep-card summary,.schema-card summary{grid-template-columns:70px 1fr;align-items:start}
   .ep-desc,.schema-meta{grid-column:1/-1;text-align:left}
   .ep-detail,.schema-detail{grid-template-columns:1fr}

@@ -1,1 +1,1 @@
-# Marks the package for MockAPI admin routes.
+# Marks the package for mockAPI admin routes.

@@ -1,14 +1,14 @@
-# MockAPI
+# mockAPI
 
-MockAPI is a FastAPI application for creating mock HTTP endpoints, storing their
+mockAPI is a FastAPI application for creating mock HTTP endpoints, storing their
 schemas, and serving simulated responses while a real backend is still being
 designed or built.
 
 It is meant for development workflows where frontend and backend work need to
 move independently. A developer registers the contract that should exist, points
-a client at MockAPI, and receives realistic JSON responses from `/mock`.
+a client at mockAPI, and receives realistic JSON responses from `/mock`.
 
-MockAPI is not a production API gateway or a replacement for a real backend. It
+mockAPI is not a production API gateway or a replacement for a real backend. It
 is a focused tool for prototyping, contract alignment, UI development, and
 backend/frontend decoupling.
 
@@ -63,7 +63,7 @@ The core workflow is:
 1. Create a reusable schema through the UI or `POST /api/schemas`.
 2. Register an endpoint with an HTTP method, path, and schema.
 3. Call the endpoint through `/mock`.
-4. MockAPI matches the request by method and normalized path.
+4. mockAPI matches the request by method and normalized path.
 5. The runtime returns either a stateful mock response or a generated response
    from the endpoint schema.
 
@@ -120,7 +120,7 @@ The runtime lives only under `/mock`:
 GET, POST, PUT, PATCH, DELETE, OPTIONS
 ```
 
-If no endpoint matches a runtime request, MockAPI returns a `404` JSON response
+If no endpoint matches a runtime request, mockAPI returns a `404` JSON response
 with the requested method and normalized path.
 
 ## API Examples
@@ -194,7 +194,7 @@ Or it can create an inline schema while registering the endpoint:
 GET /mock/tickets
 ```
 
-For mutation-style resources, MockAPI can persist simple collection state when a
+For mutation-style resources, mockAPI can persist simple collection state when a
 matching collection endpoint exists:
 
 ```http
@@ -343,12 +343,12 @@ Intentions are semantic generator keys. Examples:
 }
 ```
 
-If no explicit generator is configured, MockAPI still tries to infer useful data
+If no explicit generator is configured, mockAPI still tries to infer useful data
 from field names, endpoint names, schema names, and parent fields.
 
 ## Stateful Mock Collections
 
-For collection-like responses, MockAPI can persist generated items in the
+For collection-like responses, mockAPI can persist generated items in the
 `mock_items` table and then apply simple REST-style behavior.
 
 Collection responses are detected when generated data is:
