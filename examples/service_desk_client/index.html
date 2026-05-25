@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vista general | Northstar Service Desk</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/core.js"></script>
+  <script defer src="/static/dashboard.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-mark">NS</span><span><strong>Northstar</strong><small>Service Desk</small></span></a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a class="active" href="/">Vista general</a>
+      <a href="/tickets/">Tickets</a>
+      <a href="/assets/">Activos</a>
+      <a href="/vendors/">Proveedores</a>
+    </nav>
+    <form class="api-settings" id="api-settings">
+      <label for="api-url">URL de API</label>
+      <div class="api-input-row"><input id="api-url" name="api-url" type="url"><button type="submit" title="Guardar URL">OK</button></div>
+      <p>Conexión REST utilizada para consultar y mantener datos operativos.</p>
+    </form>
+  </aside>
+  <div class="shell">
+    <header class="topbar"><div><p class="eyebrow">Operaciones internas</p><h1>Vista general</h1></div></header>
+    <main>
+      <div class="alert danger" id="page-alert" hidden></div>
+      <section class="metric-grid" aria-label="Indicadores principales">
+        <article class="metric"><span>Tickets abiertos</span><strong id="metric-open">-</strong></article>
+        <article class="metric"><span>Alta prioridad</span><strong id="metric-priority">-</strong></article>
+        <article class="metric"><span>Activos en servicio</span><strong id="metric-assets">-</strong></article>
+        <article class="metric"><span>Proveedores activos</span><strong id="metric-vendors">-</strong></article>
+      </section>
+      <section class="layout-two">
+        <article class="panel">
+          <div class="panel-head"><div><h2>Tickets recientes</h2><p>Incidencias y solicitudes activas del equipo.</p></div><a class="button secondary" href="/tickets/">Ver tickets</a></div>
+          <div class="compact-list" id="recent-ticket-rows"></div>
+          <div class="empty-state" id="recent-ticket-empty" hidden>No hay tickets disponibles todavía.</div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h2>Áreas operativas</h2><p>Accesos a la gestión diaria.</p></div></div>
+          <div class="quick-grid">
+            <a class="quick-card" href="/tickets/"><strong>Tickets</strong><span>Incidencias, solicitudes y seguimiento de soporte.</span></a>
+            <a class="quick-card" href="/assets/"><strong>Activos</strong><span>Inventario de dispositivos y equipos asignados.</span></a>
+            <a class="quick-card" href="/vendors/"><strong>Proveedores</strong><span>Servicios externos y responsables de cuenta.</span></a>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

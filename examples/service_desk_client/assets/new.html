@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar activo | Northstar Service Desk</title>
+  <link rel="stylesheet" href="/static/styles.css"><script defer src="/static/core.js"></script><script defer src="/static/form.js"></script>
+</head>
+<body data-resource="assets" data-mode="create">
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-mark">NS</span><span><strong>Northstar</strong><small>Service Desk</small></span></a>
+    <nav class="nav"><a href="/">Vista general</a><a href="/tickets/">Tickets</a><a class="active" href="/assets/">Activos</a><a href="/vendors/">Proveedores</a></nav>
+    <form class="api-settings" id="api-settings"><label for="api-url">URL de API</label><div class="api-input-row"><input id="api-url" name="api-url" type="url"><button type="submit">OK</button></div><p>Conexión REST operativa.</p></form>
+  </aside>
+  <div class="shell"><header class="topbar"><div><p class="eyebrow">Inventario</p><h1>Registrar activo</h1></div><a class="button secondary" href="/assets/">Volver</a></header><main>
+    <div class="alert danger" id="page-alert" hidden></div>
+    <section class="panel form-panel"><div class="panel-head"><div><h2>Datos del equipo</h2><p>Registra un nuevo dispositivo en inventario.</p></div></div>
+      <form class="resource-form" id="resource-form">
+        <label class="field"><span>Nombre *</span><input name="name" required placeholder="Finance laptop"></label><label class="field"><span>Etiqueta</span><input name="asset_tag" placeholder="AS-10428"></label>
+        <label class="field"><span>Estado *</span><select name="status" required><option value="">Selecciona</option><option value="online">Online</option><option value="offline">Offline</option><option value="maintenance">Maintenance</option><option value="assigned">Assigned</option><option value="retired">Retired</option></select></label>
+        <label class="field"><span>Asignado a</span><input name="owner" placeholder="Jordan Lee"></label>
+        <label class="field"><span>Ubicación</span><input name="location" placeholder="Madrid HQ"></label><label class="field"><span>Número de serie</span><input name="serial" placeholder="SN-18492013"></label>
+        <label class="field"><span>Sistema operativo</span><input name="os" placeholder="Windows 11 Pro"></label>
+        <div class="form-actions"><button class="button primary" type="submit">Registrar activo</button></div>
+      </form>
+    </section>
+  </main></div>
+</body>
+</html>

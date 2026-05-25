@@ -6,13 +6,13 @@
 {% block content %}
 <main class="endpoint-create-page">
   <h1 class="page-title">Crear endpoint mock</h1>
-  <p class="page-sub">Registra un contrato HTTP y asócialo a un schema existente o a una nueva definición JSON.</p>
+  <p class="page-sub">Registra un contrato HTTP y asócialo a un schema existente o a un schema nuevo.</p>
 
   {% include "components/endpoint_form.html" %}
 </main>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', path='js/schema_form.js') }}"></script>
-<script src="{{ url_for('static', path='js/endpoint_form.js') }}"></script>
+<script src="{{ url_for('static', path='js/schema_form.js') }}?v=20260526-schema-editor"></script>
+<script src="{{ url_for('static', path='js/endpoint_form.js') }}?v=20260526-schema-editor"></script>
 {% endblock %}

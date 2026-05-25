@@ -5,7 +5,7 @@
         <summary>
           <span class="badge">JSON</span>
           <span class="schema-name">{{ schema.name }}</span>
-          <span class="schema-meta">{{ schema.definition|length }} campos</span>
+          <span class="schema-meta">{% if schema.definition.type == "array" %}colección{% elif schema.definition.type == "object" and schema.definition.properties %}{{ schema.definition.properties|length }} campos{% else %}{{ schema.definition|length }} campos{% endif %}</span>
         </summary>
 
         <div class="schema-panel expandable-panel">
@@ -23,8 +23,8 @@
                     <dd>{{ schema.name }}</dd>
                   </div>
                   <div>
-                    <dt>Campos</dt>
-                    <dd>{{ schema.definition|length }}</dd>
+                    <dt>Estructura</dt>
+                    <dd>{% if schema.definition.type == "array" %}colección{% elif schema.definition.type == "object" and schema.definition.properties %}{{ schema.definition.properties|length }} campos{% else %}{{ schema.definition|length }} campos{% endif %}</dd>
                   </div>
                   <div>
                     <dt>Creado</dt>

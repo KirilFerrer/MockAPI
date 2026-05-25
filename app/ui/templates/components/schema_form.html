@@ -4,12 +4,34 @@
     <input type="text" class="js-schema-name" placeholder="Usuario básico"/>
   </div>
 
-  <div class="schema-head">
-    <span>nombre</span><span>tipo</span><span>intención</span><span>requerido</span><span></span>
+  <div class="schema-advanced-state js-schema-advanced-state" hidden>
+    <strong>Schema con estructura avanzada</strong>
+    <span>Puedes editarlo desde el panel JSON de la vista previa.</span>
   </div>
 
-  <div class="schema-rows js-schema-rows"></div>
+  <div class="js-schema-visual-editor">
+    <div class="schema-root">
+      <div class="field">
+        <label>Estructura de respuesta</label>
+        <select class="js-schema-shape">
+          <option value="object">Objeto individual</option>
+          <option value="array">Colección de objetos</option>
+        </select>
+      </div>
+      <div class="field js-schema-count" hidden>
+        <label>Elementos iniciales</label>
+        <input class="js-schema-min-items" type="number" min="1" value="4"/>
+      </div>
+    </div>
 
-  <button class="btn-add js-add-schema-field" type="button">+ añadir campo</button>
+    <div class="schema-head">
+      <span>nombre</span><span>tipo</span><span>intención</span><span>requerido</span><span></span>
+    </div>
+
+    <div class="schema-rows js-schema-rows"></div>
+
+    <button class="btn-add js-add-schema-field" type="button">+ añadir campo</button>
+  </div>
+
   <button class="btn-secondary js-save-schema" type="button">Guardar solo schema</button>
 </div>

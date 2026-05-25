@@ -14,8 +14,8 @@
       <p class="stat-l">schemas</p>
     </div>
     <div class="stat">
-      <p class="stat-n">{% if schemas %}{{ schemas[0].definition|length }}{% else %}0{% endif %}</p>
-      <p class="stat-l">claves del último</p>
+      <p class="stat-n">{% if schemas and schemas[0].definition.type == "array" %}lista{% elif schemas and schemas[0].definition.type == "object" and schemas[0].definition.properties %}{{ schemas[0].definition.properties|length }}{% elif schemas %}{{ schemas[0].definition|length }}{% else %}0{% endif %}</p>
+      <p class="stat-l">estructura más reciente</p>
     </div>
     <div class="stat">
       <p class="stat-n">JSON</p>

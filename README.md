@@ -20,12 +20,15 @@ The current app includes:
 - SQLite persistence through SQLAlchemy.
 - Database creation through `Base.metadata.create_all()` during app startup.
 - An internal Jinja2 web UI under `/web`.
+- A browser schema editor for objects and collections, plus an advanced JSON
+  editor for definitions outside the visual controls.
 - Admin APIs for registering and listing schemas and endpoints.
 - A dynamic runtime under `/mock` that resolves registered endpoints.
 - Schema-backed fake JSON generation using Faker.
 - Semantic mock intentions such as `person.employee_name`, `finance.amount`, and
   `ops.case_title`.
 - Optional stateful collection behavior persisted in the `mock_items` table.
+- A sample Northstar Service Desk client under `examples/service_desk_client`.
 
 ## Quick Start
 
@@ -83,6 +86,46 @@ is called by a client as:
 ```http
 GET /mock/tickets
 ```
+
+## Browser Schema Editor
+
+The creation screen at `/web/create_endpoint_form` can build common response
+definitions without writing JSON:
+
+- Choose `Objeto individual` for a single object response.
+- Choose `Colección de objetos` and set `Elementos iniciales` for a generated
+  list that can drive stateful collection flows.
+- Add fields and their type, mock intention, required marker, examples, enum
+  values, or pattern through the visual controls.
+- Use `Usar editor JSON avanzado` in the generated-contract panel for nested or
+  otherwise unsupported structures.
+
+Schemas created visually use the JSON-Schema-like `type`/`properties` format
+shown below. Loaded definitions that cannot be represented visually remain
+available through the advanced JSON editor rather than being flattened.
+
+## Example Client
+
+`examples/service_desk_client` contains **Northstar Service Desk**, a small
+frontend that consumes mockAPI for tickets, assets, and vendors. It exercises
+collection reads and CRUD-style mutations against the stateful mock layer.
+
+Run mockAPI with an isolated demo database:
+
+```bash
+DB_NAME=mockapi_service_desk.db uv run uvicorn app.main:app --reload --port 8000
+```
+
+In another terminal, run the example client:
+
+```bash
+uv run uvicorn examples.service_desk_client.app:app --reload --port 8010
+```
+
+Then open `http://127.0.0.1:8010`. The main app allows the local example origins
+`http://127.0.0.1:8010` and `http://localhost:8010` through CORS. Full endpoint
+and schema setup instructions are in
+`examples/service_desk_client/README.md`.
 
 ## Routes
 

@@ -33,22 +33,96 @@
     const nameInput = root.querySelector('.js-schema-name');
     const rowsElement = root.querySelector('.js-schema-rows');
     const addButton = root.querySelector('.js-add-schema-field');
+    const visualEditor = root.querySelector('.js-schema-visual-editor');
+    const advancedState = root.querySelector('.js-schema-advanced-state');
+    const shapeSelect = root.querySelector('.js-schema-shape');
+    const countField = root.querySelector('.js-schema-count');
+    const minItemsInput = root.querySelector('.js-schema-min-items');
     let rows = [];
     let uid = 0;
     let loadedDefinition = null;
     let dirtyDefinition = false;
+    let advancedDefinition = null;
 
     function notify() {
       onChange();
     }
 
     function markDefinitionChanged() {
+      advancedDefinition = null;
       dirtyDefinition = true;
       notify();
     }
 
     function cloneJson(value) {
       return JSON.parse(JSON.stringify(value || {}));
+    }
+
+    function isVisuallyEditable(definition) {
+      if (!isPlainObject(definition)) {
+        return false;
+      }
+      if (definition.type === 'array') {
+        return onlyKeys(definition, ['type', 'minItems', 'items'])
+          && isPlainObject(definition.items) && onlyKeys(definition.items, ['type', 'properties'])
+          && definition.items.type === 'object'
+          && isPlainObject(definition.items.properties)
+          && Object.values(definition.items.properties).every(isVisuallyEditableField);
+      }
+      if (definition.type === 'object') {
+        return onlyKeys(definition, ['type', 'properties'])
+          && isPlainObject(definition.properties)
+          && Object.values(definition.properties).every(isVisuallyEditableField);
+      }
+      return !Object.prototype.hasOwnProperty.call(definition, 'type')
+        && Object.values(definition).every(isVisuallyEditableField);
+    }
+
+    function isVisuallyEditableField(fieldConfig) {
+      if (!isPlainObject(fieldConfig) || fieldConfig.items || fieldConfig.properties) {
+        return false;
+      }
+      const supportedKeys = new Set(['type', 'required', 'examples', 'enum', 'x-mock']);
+      return Object.keys(fieldConfig).every(key => supportedKeys.has(key));
+    }
+
+    function onlyKeys(value, keys) {
+      const supportedKeys = new Set(keys);
+      return Object.keys(value).every(key => supportedKeys.has(key));
+    }
+
+    function showVisualEditor() {
+      advancedState.hidden = true;
+      visualEditor.hidden = false;
+      countField.hidden = shapeSelect.value !== 'array';
+    }
+
+    function showAdvancedState() {
+      visualEditor.hidden = true;
+      advancedState.hidden = false;
+    }
+
+    function propertiesDefinition() {
+      const properties = {};
+      rows.forEach(row => {
+        const name = row.name.trim();
+        if (name) {
+          properties[name] = fieldDefinition(row);
+        }
+      });
+      return properties;
+    }
+
+    function visualDefinition() {
+      const properties = propertiesDefinition();
+      if (shapeSelect.value === 'array') {
+        return {
+          type: 'array',
+          minItems: Math.max(Number.parseInt(minItemsInput.value, 10) || 1, 1),
+          items: {type: 'object', properties}
+        };
+      }
+      return {type: 'object', properties};
     }
 
     function rowFromDefinition(name, config) {
@@ -245,7 +319,11 @@
       nameInput.value = '';
       loadedDefinition = null;
       dirtyDefinition = false;
+      advancedDefinition = null;
+      shapeSelect.value = 'object';
+      minItemsInput.value = '4';
       rows = [emptyRow()];
+      showVisualEditor();
       renderRows(false);
     }
 
@@ -253,30 +331,44 @@
       nameInput.value = schema?.name || '';
       loadedDefinition = cloneJson(schema?.definition || {});
       dirtyDefinition = false;
+      advancedDefinition = null;
+      shapeSelect.value = loadedDefinition.type === 'array' ? 'array' : 'object';
+      minItemsInput.value = String(loadedDefinition.minItems || 4);
       rows = rowsFromDefinition(loadedDefinition);
       if (!rows.length) {
         rows.push(emptyRow());
       }
-      renderRows(false);
+      renderRows(false, false);
+      if (isVisuallyEditable(loadedDefinition)) {
+        showVisualEditor();
+      } else {
+        advancedDefinition = cloneJson(loadedDefinition);
+        showAdvancedState();
+      }
     }
 
     function getDefinition() {
+      if (advancedDefinition !== null) {
+        return cloneJson(advancedDefinition);
+      }
+
       if (loadedDefinition && !dirtyDefinition) {
         return cloneJson(loadedDefinition);
       }
 
-      const definition = {};
-      rows.forEach(row => {
-        const name = row.name.trim();
-        if (name) {
-          definition[name] = fieldDefinition(row);
-        }
-      });
-      return definition;
+      return visualDefinition();
     }
 
     function getName() {
       return nameInput.value.trim();
+    }
+
+    function applyAdvancedDefinition(definition) {
+      advancedDefinition = cloneJson(definition);
+      loadedDefinition = null;
+      dirtyDefinition = true;
+      showAdvancedState();
+      notify();
     }
 
     function emptyRow() {
@@ -319,14 +411,21 @@
 
     nameInput.addEventListener('input', notify);
     addButton.addEventListener('click', () => addRow(true));
+    shapeSelect.addEventListener('change', () => {
+      countField.hidden = shapeSelect.value !== 'array';
+      markDefinitionChanged();
+    });
+    minItemsInput.addEventListener('input', markDefinitionChanged);
     rows = [emptyRow()];
+    showVisualEditor();
     renderRows(false, false);
 
     return {
       getDefinition,
       getName,
       loadSchema,
-      reset
+      reset,
+      applyAdvancedDefinition
     };
   }
 

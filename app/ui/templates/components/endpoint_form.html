@@ -53,8 +53,15 @@
 
   <div class="preview-column">
     <div class="card">
-      <p class="card-title">Preview JSON</p>
+      <p class="card-title">Contrato generado</p>
       <pre class="preview-block js-preview">{}</pre>
+      <details class="preview-advanced js-preview-advanced">
+        <summary>Usar editor JSON avanzado</summary>
+        <p class="preview-advanced-note">Solo para estructuras que no puedan definirse con los controles visuales.</p>
+        <textarea class="preview-json-input js-preview-json" spellcheck="false" rows="16"></textarea>
+        <p class="schema-json-error js-preview-json-error" hidden></p>
+        <button class="btn-secondary js-apply-preview-json" type="button">Aplicar definición</button>
+      </details>
     </div>
   </div>
 </div>

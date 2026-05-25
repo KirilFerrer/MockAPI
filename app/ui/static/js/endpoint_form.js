@@ -25,11 +25,21 @@
     button.textContent = schema.name;
 
     const meta = document.createElement('small');
-    meta.textContent = `${Object.keys(schema.definition || {}).length} campos`;
+    meta.textContent = schemaSummary(schema.definition);
     button.appendChild(meta);
     button.addEventListener('click', () => onSelect(schema.id));
 
     return button;
+  }
+
+  function schemaSummary(definition) {
+    if (definition?.type === 'array') {
+      return 'colección';
+    }
+    if (definition?.type === 'object' && definition.properties) {
+      return `${Object.keys(definition.properties).length} campos`;
+    }
+    return `${Object.keys(definition || {}).length} campos`;
   }
 
   function initEndpointForm() {
@@ -50,6 +60,10 @@
     const schemaOptions = form.querySelector('.js-schema-options');
     const btnSaveSchema = form.querySelector('.js-save-schema');
     const btnSubmit = form.querySelector('.js-save-endpoint');
+    const advancedPanel = form.querySelector('.js-preview-advanced');
+    const advancedInput = form.querySelector('.js-preview-json');
+    const advancedError = form.querySelector('.js-preview-json-error');
+    const applyAdvancedButton = form.querySelector('.js-apply-preview-json');
     const schemaForm = window.mockAPI.createSchemaForm(form.querySelector('.js-schema-form'), {
       onChange: updatePreview
     });
@@ -58,11 +72,11 @@
       return savedSchemas.find(schema => schema.id === selectedSchemaId);
     }
 
-    function selectedSchemaWasEdited() {
+    function selectedSchemaWasEdited(definition) {
       const schema = selectedSchema();
       if (!schema) return false;
 
-      return schemaForm.getName() !== schema.name || !sameJson(schemaForm.getDefinition(), schema.definition);
+      return schemaForm.getName() !== schema.name || !sameJson(definition, schema.definition);
     }
 
     async function loadSchemas() {
@@ -125,15 +139,15 @@
       updatePreview();
     }
 
-    function payload() {
+    function payload(definition = schemaForm.getDefinition()) {
       const schema = selectedSchema();
-      const schemaEdited = selectedSchemaWasEdited();
+      const schemaEdited = selectedSchemaWasEdited(definition);
       const data = {
         name: epName.value,
         method: epMethod.value,
         path: epPath.value,
         description: epDesc.value,
-        schema: schemaForm.getDefinition()
+        schema: definition
       };
 
       if (schema && !schemaEdited) {
@@ -147,7 +161,34 @@
     }
 
     function updatePreview() {
-      preview.textContent = JSON.stringify(payload(), null, 2);
+      const definition = schemaForm.getDefinition();
+      preview.textContent = JSON.stringify(payload(definition), null, 2);
+    }
+
+    function validDefinition() {
+      return schemaForm.getDefinition();
+    }
+
+    function setAdvancedError(message) {
+      const hasError = Boolean(message);
+      advancedInput.classList.toggle('is-invalid', hasError);
+      advancedError.hidden = !hasError;
+      advancedError.textContent = message || '';
+    }
+
+    function advancedDefinition() {
+      try {
+        const definition = JSON.parse(advancedInput.value);
+        if (!definition || typeof definition !== 'object' || Array.isArray(definition)) {
+          setAdvancedError('La definición debe ser un objeto JSON.');
+          return null;
+        }
+        setAdvancedError('');
+        return definition;
+      } catch (error) {
+        setAdvancedError(`JSON no válido: ${error.message}`);
+        return null;
+      }
     }
 
     [epMethod, epPath, epName, epDesc].forEach(element => element.addEventListener('input', updatePreview));
@@ -161,6 +202,18 @@
     document.addEventListener('click', event => {
       if (!schemaPicker.contains(event.target)) closeSchemaPicker();
     });
+    advancedPanel.addEventListener('toggle', () => {
+      if (!advancedPanel.open) return;
+      advancedInput.value = JSON.stringify(schemaForm.getDefinition(), null, 2);
+      setAdvancedError('');
+    });
+    applyAdvancedButton.addEventListener('click', () => {
+      const definition = advancedDefinition();
+      if (definition === null) return;
+      schemaForm.applyAdvancedDefinition(definition);
+      advancedPanel.open = false;
+      showToast('Definición JSON aplicada');
+    });
 
     btnSaveSchema.addEventListener('click', async () => {
       const name = schemaForm.getName();
@@ -168,6 +221,7 @@
         showToast('Nombre del schema obligatorio');
         return;
       }
+      const definition = validDefinition();
 
       btnSaveSchema.disabled = true;
       btnSaveSchema.textContent = 'Guardando...';
@@ -175,7 +229,7 @@
         const response = await fetch(SCHEMAS_API_URL, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({name, definition: schemaForm.getDefinition()})
+          body: JSON.stringify({name, definition})
         });
 
         if (!response.ok) {
@@ -204,6 +258,7 @@
         showToast('Nombre del schema obligatorio');
         return;
       }
+      const definition = validDefinition();
 
       btnSubmit.disabled = true;
       btnSubmit.textContent = 'Enviando...';
@@ -211,7 +266,7 @@
         const response = await fetch(ENDPOINTS_API_URL, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload())
+          body: JSON.stringify(payload(definition))
         });
         const data = await response.json().catch(() => null);
 

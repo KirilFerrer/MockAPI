@@ -5,6 +5,7 @@ from app.routing import router as app_routing
 from app.core.settings import Settings
 from app.storage.database import init_db
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -16,6 +17,12 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:8010", "http://localhost:8010"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.mount(
     "/static",
     StaticFiles(directory=settings.static_dir),

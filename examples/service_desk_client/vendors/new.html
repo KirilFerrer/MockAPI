@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear proveedor | Northstar Service Desk</title>
+  <link rel="stylesheet" href="/static/styles.css"><script defer src="/static/core.js"></script><script defer src="/static/form.js"></script>
+</head>
+<body data-resource="vendors" data-mode="create">
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-mark">NS</span><span><strong>Northstar</strong><small>Service Desk</small></span></a>
+    <nav class="nav"><a href="/">Vista general</a><a href="/tickets/">Tickets</a><a href="/assets/">Activos</a><a class="active" href="/vendors/">Proveedores</a></nav>
+    <form class="api-settings" id="api-settings"><label for="api-url">URL de API</label><div class="api-input-row"><input id="api-url" name="api-url" type="url"><button type="submit">OK</button></div><p>Conexión REST operativa.</p></form>
+  </aside>
+  <div class="shell"><header class="topbar"><div><p class="eyebrow">Relaciones externas</p><h1>Crear proveedor</h1></div><a class="button secondary" href="/vendors/">Volver</a></header><main>
+    <div class="alert danger" id="page-alert" hidden></div>
+    <section class="panel form-panel"><div class="panel-head"><div><h2>Datos del proveedor</h2><p>Registra una empresa o servicio contratado.</p></div></div>
+      <form class="resource-form" id="resource-form">
+        <label class="field"><span>Nombre *</span><input name="name" required placeholder="Northwind Systems"></label>
+        <label class="field"><span>Categoría</span><select name="category"><option value="">Selecciona</option><option value="hardware">Hardware</option><option value="software">Software</option><option value="cloud">Cloud</option><option value="consulting">Consulting</option><option value="support">Support</option></select></label>
+        <label class="field"><span>Estado *</span><select name="status" required><option value="">Selecciona</option><option value="active">Active</option><option value="review">Review</option><option value="blocked">Blocked</option><option value="archived">Archived</option></select></label>
+        <label class="field"><span>Responsable interno</span><input name="owner" placeholder="Morgan Rivera"></label>
+        <label class="field"><span>Email de contacto</span><input name="contact_email" type="email" placeholder="support@example.com"></label><label class="field"><span>Teléfono</span><input name="phone" placeholder="+34 900 100 200"></label>
+        <label class="field textarea"><span>Notas</span><textarea name="notes" rows="5" placeholder="Condiciones de servicio o SLA relevante."></textarea></label>
+        <div class="form-actions"><button class="button primary" type="submit">Crear proveedor</button></div>
+      </form>
+    </section>
+  </main></div>
+</body>
+</html>
