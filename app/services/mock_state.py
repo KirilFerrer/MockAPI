@@ -12,6 +12,11 @@ from app.storage.repositories.endpoint import (
     normalize_endpoint_path,
     path_last_param_name,
 )
+from app.storage.repositories.mock_resource import (
+    clear_initialized_resources,
+    is_resource_initialized,
+    mark_resource_initialized,
+)
 from app.storage.repositories.mock_item import (
     create_mock_item,
     create_mock_items,
@@ -126,10 +131,10 @@ def stateful_mock_response(
 
 
 def reset_mock_state(db: Session, resource_path: str | None = None) -> int:
-    if resource_path is None:
-        return delete_mock_items(db)
-
-    return delete_mock_items(db, _normalize_resource_key(resource_path))
+    resource_key = _normalize_resource_key(resource_path) if resource_path is not None else None
+    deleted = delete_mock_items(db, resource_key)
+    clear_initialized_resources(db, resource_key)
+    return deleted
 
 
 def _resource_context(
@@ -222,10 +227,17 @@ def _ensure_seeded_collection(
 ):
     items = get_mock_items(db, context.resource_key)
     if items:
+        # Existing databases can have items created before resource tracking existed.
+        mark_resource_initialized(db, context.resource_key)
         return items
+
+    # An initialized but empty collection must stay empty after DELETE.
+    if is_resource_initialized(db, context.resource_key):
+        return []
 
     seed_items = _collection_items_from_endpoint(context.collection_match.endpoint)
     normalized_items = _normalize_seed_items(db, context, seed_items)
+    mark_resource_initialized(db, context.resource_key)
     if not normalized_items:
         return []
 
