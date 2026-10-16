@@ -1,10 +1,14 @@
 # Defines the table that stores JSON schema definitions.
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, Integer, JSON, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.storage.database import Base
+
+if TYPE_CHECKING:
+    from app.storage.models.endpoint import Endpoint
 
 class Schema(Base):
     __tablename__ = "schemas"
