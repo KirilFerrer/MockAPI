@@ -1,7 +1,5 @@
 # mockAPI
 
-[![CI](https://github.com/CPX-001/MockAPI/actions/workflows/ci.yml/badge.svg)](https://github.com/CPX-001/MockAPI/actions/workflows/ci.yml)
-
 **A local HTTP API simulator built with Python and FastAPI.** Define an endpoint and a response schema, then call it as though the backend already existed. The response is generated with realistic fake data, without calling an external service.
 
 This began as a Python specialization project to explore HTTP APIs, schema-driven data generation and frontend/backend separation. It is a **development and prototyping tool**, not an API gateway or a production-ready service.
@@ -88,7 +86,6 @@ The main code boundaries are:
 | `app/storage/` | SQLAlchemy models, sessions and repository queries |
 | `app/web/` | Routes that render the browser UI |
 | `app/ui/` | Jinja2 templates, CSS and lightweight JavaScript |
-| `tests/` | HTTP-level regression tests for registration and mock behavior |
 
 The default database is `app/mockapi.db` (ignored by Git). Tables are initialized on startup. There is no migration system.
 
@@ -113,15 +110,6 @@ DB_NAME=mockapi.db
 
 CORS controls browser requests; it is **not** an authentication or network security mechanism. Bind to loopback for local use.
 
-## Tests
-
-~~~bash
-python -m pip install -r requirements.txt pytest httpx ruff
-ruff check app tests
-python -m pytest -q
-~~~
-
-GitHub Actions runs the Python lint check, API regression tests and JavaScript syntax checks on pushes and pull requests.
 
 ## Project boundaries
 
