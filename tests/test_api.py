@@ -99,7 +99,7 @@ def test_invalid_endpoint_references_and_duplicates(client):
     assert client.post("/api/endpoints", json={**endpoint, "path": "", "schema_id": 999}).status_code == 422
     assert client.post("/api/endpoints", json={**endpoint, "method": "INVALID"}).status_code == 422
     assert client.post("/api/endpoints", json=[]).status_code == 422
-    assert client.post("/api/endpoints", data="not-json", headers={"Content-Type": "application/json"}).status_code == 400
+    assert client.post("/api/endpoints", content="not-json", headers={"Content-Type": "application/json"}).status_code == 400
 
 
 def test_collection_mutation_delete_last_item_and_reset(client):
@@ -139,3 +139,39 @@ def test_collection_mutation_delete_last_item_and_reset(client):
     assert reset.status_code == 200
     assert reset.json()["deleted"] == 1
     assert len(client.get("/mock/tickets").json()) == 2
+
+
+def test_patch_and_put_preserve_and_create_items(client):
+    collection_schema = {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+            "type": "object",
+            "properties": {
+                "id": {"type": "string", "example": "asset-1"},
+                "name": {"type": "string", "example": "Original"},
+                "enabled": {"type": "boolean", "example": True},
+            },
+        },
+    }
+    _register(client, "GET", "/assets", collection_schema)
+    _register(client, "GET", "/assets/{asset_id}", {})
+    _register(client, "PATCH", "/assets/{asset_id}", {})
+    _register(client, "PUT", "/assets/{asset_id}", {})
+
+    original = client.get("/mock/assets/asset-1")
+    assert original.status_code == 200
+    assert original.json()["enabled"] is True
+
+    patched = client.patch("/mock/assets/asset-1", json={"name": "Updated"})
+    assert patched.status_code == 200
+    assert patched.json()["name"] == "Updated"
+    assert patched.json()["enabled"] is True
+
+    created = client.put("/mock/assets/asset-2", json={"name": "New"})
+    assert created.status_code == 200
+    assert created.json()["id"] == "asset-2"
+    assert created.json()["name"] == "New"
+
+    items = client.get("/mock/assets").json()
+    assert len(items) == 2

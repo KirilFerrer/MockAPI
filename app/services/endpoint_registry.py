@@ -84,8 +84,10 @@ def serialize_endpoints(endpoints: list[Endpoint]) -> list[dict[str, Any]]:
 
 def register_endpoint(db: Session, endpoint_data: dict[str, Any]) -> Endpoint:
     endpoint = endpoint_payload(db, endpoint_data)
-    if get_db_endpoint(db, endpoint.method, endpoint.path) is not None:
-        raise FileExistsError(f"{endpoint.method} {endpoint.path} is already registered")
+    # Lookup must not autoflush the unsaved endpoint's schema relationship.
+    with db.no_autoflush:
+        if get_db_endpoint(db, endpoint.method, endpoint.path) is not None:
+            raise FileExistsError(f"{endpoint.method} {endpoint.path} is already registered")
     return create_endpoint(db, endpoint)
 
 
