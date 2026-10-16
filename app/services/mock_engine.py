@@ -43,12 +43,8 @@ class MockGenerationContext:
         schema_tokens = tokens_from_text(self.schema_name)
         endpoint_tokens = tokens_from_text(self.endpoint_name)
         return IntentContext(
-            field_name=field_name,
             field_tokens=tokens_from_text(field_name),
             context_tokens=parent_tokens | path_tokens | schema_tokens | endpoint_tokens,
-            path_tokens=path_tokens,
-            schema_tokens=schema_tokens,
-            parent_tokens=parent_tokens,
         )
 
 
@@ -114,7 +110,7 @@ def _value_from_field_config(
         return _fake_integer(field_name, field_config)
 
     if field_type == "number":
-        return _fake_number(field_name, field_config)
+        return _fake_number(field_config)
 
     if field_type == "boolean":
         return fake.pybool()
@@ -237,13 +233,8 @@ def _fake_integer(field_name: str, field_config: dict[str, Any]) -> int:
     return fake.random_int(min=min_value, max=max_value)
 
 
-def _fake_number(field_name: str, field_config: dict[str, Any]) -> float:
-    tokens = tokens_from_text(field_name)
+def _fake_number(field_config: dict[str, Any]) -> float:
     min_value, max_value = _number_bounds(field_config)
-
-    if _has_any(tokens, {"price", "amount", "cost", "total", "precio", "importe", "coste"}):
-        return round(fake.random_int(min=int(min_value * 100), max=int(max_value * 100)) / 100, 2)
-
     return round(fake.random_int(min=int(min_value * 100), max=int(max_value * 100)) / 100, 2)
 
 

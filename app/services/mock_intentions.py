@@ -11,12 +11,8 @@ TokenSet = frozenset[str]
 
 @dataclass(frozen=True)
 class IntentContext:
-    field_name: str
     field_tokens: TokenSet
     context_tokens: TokenSet
-    path_tokens: TokenSet
-    schema_tokens: TokenSet
-    parent_tokens: TokenSet
 
 
 IntentGenerator = Callable[[Faker, IntentContext], Any]

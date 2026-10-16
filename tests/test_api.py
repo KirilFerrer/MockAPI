@@ -175,3 +175,28 @@ def test_patch_and_put_preserve_and_create_items(client):
 
     items = client.get("/mock/assets").json()
     assert len(items) == 2
+
+
+def test_invalid_reset_does_not_clear_existing_collection(client):
+    _register(
+        client,
+        "GET",
+        "/items",
+        {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {"id": {"type": "string", "format": "uuid"}},
+            },
+        },
+    )
+    seeded = client.get("/mock/items").json()
+    invalid_json = client.post(
+        "/api/mock-state/reset",
+        content="{not-json",
+        headers={"Content-Type": "application/json"},
+    )
+    assert invalid_json.status_code == 400
+    assert client.post("/api/mock-state/reset", json={"resource_path": 42}).status_code == 422
+    assert client.get("/mock/items").json() == seeded
