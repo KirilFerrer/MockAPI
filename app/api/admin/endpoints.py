@@ -1,5 +1,5 @@
-# Exposes admin routes for registering and managing mock endpoints.
-from fastapi import APIRouter, Depends, Request
+"""Admin API for creating and listing mock endpoints."""
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.services.endpoint_registry import (
@@ -8,26 +8,29 @@ from app.services.endpoint_registry import (
     serialize_endpoint,
     serialize_endpoints,
 )
-
 from app.storage.database import get_db
 
 router = APIRouter(prefix="/api/endpoints", tags=["endpoint"])
 
 
 @router.post("")
-async def receive_endpoint(
-    request: Request,
-    db: Session = Depends(get_db),
-):
-    endpoint_data = await request.json()
-    saved_endpoint = register_endpoint(db, endpoint_data)
+async def receive_endpoint(request: Request, db: Session = Depends(get_db)):
+    try:
+        data = await request.json()
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid JSON body") from exc
 
-    return serialize_endpoint(saved_endpoint)
+    try:
+        endpoint = register_endpoint(db, data)
+    except FileExistsError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return serialize_endpoint(endpoint)
+
 
 @router.get("")
-async def get_endpoint_list(
-    request: Request,
-    db: Session = Depends(get_db)
-):
-    endpoints = list_endpoints(db)
-    return serialize_endpoints(endpoints)
+def get_endpoint_list(db: Session = Depends(get_db)):
+    return serialize_endpoints(list_endpoints(db))

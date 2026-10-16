@@ -1,43 +1,66 @@
-# Registers mock endpoints from data read by the HTTP layer.
+"""Register mock HTTP contracts and resolve their schemas."""
 from typing import Any
 
 from sqlalchemy.orm import Session
 
+from app.services.schema_registry import get_schema
 from app.storage.models.endpoint import Endpoint
 from app.storage.models.schema import Schema
-from app.services.schema_registry import get_schema
 from app.storage.repositories.endpoint import (
     create_endpoint,
+    get_db_endpoint,
     get_db_endpoints,
     normalize_endpoint_method,
     normalize_endpoint_path,
 )
 
+SUPPORTED_METHODS = {"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+
 
 def schema_payload(db: Session, endpoint_data: dict[str, Any]) -> Schema:
     schema_id = endpoint_data.get("schema_id")
-
-    if schema_id:
+    if schema_id is not None:
+        if isinstance(schema_id, bool):
+            raise ValueError("schema_id must be a positive integer")
         try:
-            schema = get_schema(db, int(schema_id))
-            if schema:
-                return schema
-        except ValueError:
-            pass
+            schema_id = int(schema_id)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("schema_id must be a positive integer") from exc
+        if schema_id <= 0:
+            raise ValueError("schema_id must be a positive integer")
+        schema = get_schema(db, schema_id)
+        if schema is None:
+            raise LookupError(f"Schema {schema_id} was not found")
+        return schema
 
-    schema_name = endpoint_data.get("schema_name") or endpoint_data.get("name") or "Schema sin nombre"
-    return Schema(
-        name=schema_name,
-        definition=endpoint_data.get("schema", {}),
-    )
+    definition = endpoint_data.get("schema")
+    if not isinstance(definition, dict):
+        raise ValueError("Provide a schema object or an existing schema_id")
+    schema_name = endpoint_data.get("schema_name") or endpoint_data.get("name") or "Untitled schema"
+    if not isinstance(schema_name, str):
+        raise ValueError("schema_name must be a string")
+    return Schema(name=schema_name.strip() or "Untitled schema", definition=definition)
 
 
 def endpoint_payload(db: Session, endpoint_data: dict[str, Any]) -> Endpoint:
+    if not isinstance(endpoint_data, dict):
+        raise ValueError("Endpoint registration requires a JSON object")
+    method = normalize_endpoint_method(endpoint_data.get("method"))
+    path = endpoint_data.get("path")
+    if method not in SUPPORTED_METHODS:
+        raise ValueError("Unsupported or missing HTTP method")
+    if not isinstance(path, str) or not path.strip():
+        raise ValueError("Endpoint path is required")
+    normalized_path = normalize_endpoint_path(path)
+    name = endpoint_data.get("name") or endpoint_data.get("description") or f"{method} {normalized_path}"
+    description = endpoint_data.get("description")
+    if not isinstance(name, str) or (description is not None and not isinstance(description, str)):
+        raise ValueError("Endpoint name and description must be strings")
     return Endpoint(
-        name=endpoint_data.get("name") or endpoint_data.get("description"),
-        description=endpoint_data.get("description"),
-        method=normalize_endpoint_method(endpoint_data.get("method")),
-        path=normalize_endpoint_path(endpoint_data.get("path")),
+        name=name.strip(),
+        description=description,
+        method=method,
+        path=normalized_path,
         schema=schema_payload(db, endpoint_data),
     )
 
@@ -61,6 +84,8 @@ def serialize_endpoints(endpoints: list[Endpoint]) -> list[dict[str, Any]]:
 
 def register_endpoint(db: Session, endpoint_data: dict[str, Any]) -> Endpoint:
     endpoint = endpoint_payload(db, endpoint_data)
+    if get_db_endpoint(db, endpoint.method, endpoint.path) is not None:
+        raise FileExistsError(f"{endpoint.method} {endpoint.path} is already registered")
     return create_endpoint(db, endpoint)
 
 

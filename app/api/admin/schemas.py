@@ -1,5 +1,5 @@
-# Exposes admin routes for registering and listing reusable schemas.
-from fastapi import APIRouter, Depends, Request
+"""Admin API for creating and listing reusable schemas."""
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.services.schema_registry import (
@@ -14,20 +14,19 @@ router = APIRouter(prefix="/api/schemas", tags=["schema"])
 
 
 @router.post("")
-async def receive_schema(
-    request: Request,
-    db: Session = Depends(get_db),
-):
-    schema_data = await request.json()
-    saved_schema = register_schema(db, schema_data)
+async def receive_schema(request: Request, db: Session = Depends(get_db)):
+    try:
+        data = await request.json()
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid JSON body") from exc
 
-    return serialize_schema(saved_schema)
+    try:
+        schema = register_schema(db, data)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return serialize_schema(schema)
 
 
 @router.get("")
-async def get_schema_list(
-    request: Request,
-    db: Session = Depends(get_db),
-):
-    schemas = list_schemas(db)
-    return serialize_schemas(schemas)
+def get_schema_list(db: Session = Depends(get_db)):
+    return serialize_schemas(list_schemas(db))
