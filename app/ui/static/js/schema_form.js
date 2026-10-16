@@ -1,5 +1,5 @@
 (function () {
-  const TYPES = ['string', 'integer', 'number', 'boolean', 'array', 'object'];
+  const TYPES = ['string', 'integer', 'number', 'boolean'];
   const INTENTIONS = [
     {value: '', label: 'auto'},
     {value: 'ops.case_title', label: 'caso: titulo'},
@@ -83,7 +83,8 @@
         return false;
       }
       const supportedKeys = new Set(['type', 'required', 'examples', 'enum', 'x-mock']);
-      return Object.keys(fieldConfig).every(key => supportedKeys.has(key));
+      return TYPES.includes(fieldConfig.type || 'string')
+        && Object.keys(fieldConfig).every(key => supportedKeys.has(key));
     }
 
     function onlyKeys(value, keys) {

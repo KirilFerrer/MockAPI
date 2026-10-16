@@ -1,30 +1,27 @@
-# Centralizes mockAPI paths and configuration values.
+"""Local configuration for the HTTP mock server and its web UI."""
 from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-ENV_DIR = f"{BASE_DIR}/.env"
-TEMPLATES_DIR = f"{BASE_DIR}/ui/templates"
-STATIC_DIR = f"{BASE_DIR}/ui/static"
+APP_DIR = Path(__file__).resolve().parent.parent
+
 
 class Settings(BaseSettings):
+    # The local .env file is app/.env, beside the application package.
     model_config = SettingsConfigDict(
-        env_file = ENV_DIR,
-        env_file_encoding = "utf-8",
-        extra = "ignore",
+        env_file=APP_DIR / ".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
     )
 
     app_name: str = "mockAPI"
     db_name: str = "mockapi.db"
+    cors_origins: list[str] = []
 
-    base_dir: Path = BASE_DIR
-    env_dir: Path = ENV_DIR
-    templates_dir: Path = TEMPLATES_DIR
-    static_dir: Path = STATIC_DIR
-
-    db_provider:str = "sqlite"
+    base_dir: Path = APP_DIR
+    templates_dir: Path = APP_DIR / "ui" / "templates"
+    static_dir: Path = APP_DIR / "ui" / "static"
 
     @property
     def database_url(self) -> str:
-        db_path = self.base_dir / self.db_name
-        return f"{self.db_provider}:///{db_path}"
+        return f"sqlite:///{self.base_dir / self.db_name}"
