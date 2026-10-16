@@ -116,11 +116,12 @@ CORS controls browser requests; it is **not** an authentication or network secur
 ## Tests
 
 ~~~bash
-python -m pip install -r requirements.txt pytest httpx
+python -m pip install -r requirements.txt pytest httpx ruff
+ruff check app tests
 python -m pytest -q
 ~~~
 
-GitHub Actions runs the API regression tests and JavaScript syntax checks on pushes and pull requests.
+GitHub Actions runs the Python lint check, API regression tests and JavaScript syntax checks on pushes and pull requests.
 
 ## Project boundaries
 

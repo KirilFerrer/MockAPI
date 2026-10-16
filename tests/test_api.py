@@ -6,9 +6,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import app.storage.models  # Register ORM tables with SQLAlchemy metadata.
 from app.storage.database import Base, get_db
 
+importlib.import_module("app.storage.models")  # Register all ORM tables.
 main = importlib.import_module("app.main")
 
 
