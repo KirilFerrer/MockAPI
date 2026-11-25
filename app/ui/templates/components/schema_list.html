@@ -5,36 +5,36 @@
         <summary>
           <span class="badge">JSON</span>
           <span class="schema-name">{{ schema.name }}</span>
-          <span class="schema-meta">{% if schema.definition.type == "array" %}colección{% elif schema.definition.type == "object" and schema.definition.properties %}{{ schema.definition.properties|length }} campos{% else %}{{ schema.definition|length }} campos{% endif %}</span>
+          <span class="schema-meta">{% if schema.definition.type == "array" %}collection{% elif schema.definition.type == "object" and schema.definition.properties %}{{ schema.definition.properties|length }} fields{% else %}{{ schema.definition|length }} fields{% endif %}</span>
         </summary>
 
         <div class="schema-panel expandable-panel">
           <div class="schema-panel-inner expandable-panel-inner">
             <div class="schema-detail">
               <div class="detail-box">
-                <p class="detail-title">Información</p>
+                <p class="detail-title">Details</p>
                 <dl class="detail-list">
                   <div>
                     <dt>ID</dt>
                     <dd>{{ schema.id }}</dd>
                   </div>
                   <div>
-                    <dt>Nombre</dt>
+                    <dt>Name</dt>
                     <dd>{{ schema.name }}</dd>
                   </div>
                   <div>
-                    <dt>Estructura</dt>
-                    <dd>{% if schema.definition.type == "array" %}colección{% elif schema.definition.type == "object" and schema.definition.properties %}{{ schema.definition.properties|length }} campos{% else %}{{ schema.definition|length }} campos{% endif %}</dd>
+                    <dt>Structure</dt>
+                    <dd>{% if schema.definition.type == "array" %}collection{% elif schema.definition.type == "object" and schema.definition.properties %}{{ schema.definition.properties|length }} fields{% else %}{{ schema.definition|length }} fields{% endif %}</dd>
                   </div>
                   <div>
-                    <dt>Creado</dt>
-                    <dd>{{ schema.created_at or "sin fecha" }}</dd>
+                    <dt>Created</dt>
+                    <dd>{{ schema.created_at or "No date" }}</dd>
                   </div>
                 </dl>
               </div>
 
               <div class="detail-box">
-                <p class="detail-title">Definición</p>
+                <p class="detail-title">Definition</p>
                 <pre class="schema-block">{{ schema.definition | tojson(indent=2) }}</pre>
               </div>
             </div>
@@ -44,5 +44,5 @@
     {% endfor %}
   </div>
 {% else %}
-  <div class="empty">Todavía no hay schemas guardados.</div>
+  <div class="empty">No schemas have been saved yet.</div>
 {% endif %}

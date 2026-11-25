@@ -1,12 +1,12 @@
 {# Overview page for the admin web interface. #}
 {% extends "base.html" %}
 
-{% block title %}Vista general - mockAPI{% endblock %}
+{% block title %}Overview - mockAPI{% endblock %}
 
 {% block content %}
 <main>
-  <h1 class="page-title">Vista general</h1>
-  <p class="page-sub">Estado de los contratos mock, schemas reutilizables y métodos disponibles en el entorno local.</p>
+  <h1 class="page-title">Overview</h1>
+  <p class="page-sub">Registered mock endpoints, reusable schemas and available HTTP methods.</p>
 
   <section class="stats">
     <div class="stat">
@@ -29,64 +29,64 @@
 
   <section class="overview-grid">
     <div class="panel">
-      <p class="panel-title">Estado</p>
+      <p class="panel-title">Status</p>
       <div class="status-list">
         <div class="status-row">
-          <span>Registro de endpoints</span>
-          <span>activo</span>
+          <span>Endpoint registry</span>
+          <span>active</span>
         </div>
         <div class="status-row">
-          <span>Persistencia local</span>
+          <span>Local storage</span>
           <span>SQLite</span>
         </div>
         <div class="status-row">
-          <span>Interfaz web</span>
-          <span>operativa</span>
+          <span>Web interface</span>
+          <span>available</span>
         </div>
       </div>
     </div>
 
     <div class="panel">
-      <p class="panel-title">Resumen</p>
+      <p class="panel-title">Summary</p>
       {% if endpoints %}
         {% set last_endpoint = endpoints|last %}
         <div class="status-list">
           <div class="status-row">
-            <span>Último endpoint</span>
+            <span>Latest endpoint</span>
             <span>{{ last_endpoint.method }} {{ last_endpoint.path }}</span>
           </div>
           <div class="status-row">
-            <span>Schemas guardados</span>
+            <span>Saved schemas</span>
             <span>{{ schemas|length }}</span>
           </div>
           <div class="status-row">
-            <span>Panel de endpoints</span>
-            <span>listo</span>
+            <span>Endpoints dashboard</span>
+            <span>ready</span>
           </div>
         </div>
       {% else %}
-        <p class="empty-note">Aún no hay endpoints guardados. Crea el primero para empezar a ver datos reales aquí.</p>
+        <p class="empty-note">No endpoints have been saved yet. Create one to get started.</p>
       {% endif %}
     </div>
   </section>
 
   <section>
     <div class="section-hd">
-      <h2>Accesos rápidos</h2>
+      <h2>Quick links</h2>
     </div>
 
     <div class="action-grid">
       <a href="/web/endpoints" class="action">
-        <strong>Ver endpoints</strong>
-        <span>Revisa método, path y schema asociado para cada contrato registrado.</span>
+        <strong>View endpoints</strong>
+        <span>View the method, path and schema of each registered endpoint.</span>
       </a>
       <a href="/web/schemas" class="action">
-        <strong>Ver schemas</strong>
-        <span>Consulta las definiciones JSON disponibles para generar respuestas mock.</span>
+        <strong>View schemas</strong>
+        <span>Browse the JSON definitions used to generate mock responses.</span>
       </a>
       <a href="/web/create_endpoint_form" class="action">
-        <strong>Crear endpoint</strong>
-        <span>Define un contrato HTTP y asócialo a un schema nuevo o existente.</span>
+        <strong>Create endpoint</strong>
+        <span>Register an HTTP endpoint with a new or existing schema.</span>
       </a>
     </div>
   </section>

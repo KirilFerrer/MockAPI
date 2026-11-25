@@ -34,12 +34,12 @@
 
   function schemaSummary(definition) {
     if (definition?.type === 'array') {
-      return 'colección';
+      return 'collection';
     }
     if (definition?.type === 'object' && definition.properties) {
-      return `${Object.keys(definition.properties).length} campos`;
+      return `${Object.keys(definition.properties).length} fields`;
     }
-    return `${Object.keys(definition || {}).length} campos`;
+    return `${Object.keys(definition || {}).length} fields`;
   }
 
   function initEndpointForm() {
@@ -86,7 +86,7 @@
         savedSchemas = await response.json();
         renderSchemaOptions();
       } catch (error) {
-        showToast('No se pudieron cargar los schemas');
+        showToast('Could not load schemas');
       }
     }
 
@@ -99,14 +99,14 @@
       const createButton = document.createElement('button');
       createButton.type = 'button';
       createButton.className = 'schema-option schema-option-create';
-      createButton.textContent = '+ crear nuevo schema';
+      createButton.textContent = '+ create new schema';
       createButton.addEventListener('click', selectNewSchema);
       schemaOptions.appendChild(createButton);
 
       if (!matches.length) {
         const empty = document.createElement('div');
         empty.className = 'schema-empty';
-        empty.textContent = 'No hay schemas con ese nombre';
+        empty.textContent = 'No matching schemas';
         schemaOptions.appendChild(empty);
         return;
       }
@@ -122,7 +122,7 @@
 
     function selectNewSchema() {
       selectedSchemaId = null;
-      schemaTrigger.textContent = 'Crear nuevo schema';
+      schemaTrigger.textContent = 'Create new schema';
       schemaForm.reset();
       closeSchemaPicker();
       updatePreview();
@@ -180,13 +180,13 @@
       try {
         const definition = JSON.parse(advancedInput.value);
         if (!definition || typeof definition !== 'object' || Array.isArray(definition)) {
-          setAdvancedError('La definición debe ser un objeto JSON.');
+          setAdvancedError('The definition must be a JSON object.');
           return null;
         }
         setAdvancedError('');
         return definition;
       } catch (error) {
-        setAdvancedError(`JSON no válido: ${error.message}`);
+        setAdvancedError(`Invalid JSON: ${error.message}`);
         return null;
       }
     }
@@ -212,19 +212,19 @@
       if (definition === null) return;
       schemaForm.applyAdvancedDefinition(definition);
       advancedPanel.open = false;
-      showToast('Definición JSON aplicada');
+      showToast('JSON definition applied');
     });
 
     btnSaveSchema.addEventListener('click', async () => {
       const name = schemaForm.getName();
       if (!name) {
-        showToast('Nombre del schema obligatorio');
+        showToast('Schema name is required');
         return;
       }
       const definition = validDefinition();
 
       btnSaveSchema.disabled = true;
-      btnSaveSchema.textContent = 'Guardando...';
+      btnSaveSchema.textContent = 'Saving...';
       try {
         const response = await fetch(SCHEMAS_API_URL, {
           method: 'POST',
@@ -239,29 +239,29 @@
 
         await response.json();
         await loadSchemas();
-        showToast('Schema guardado correctamente');
+        showToast('Schema saved');
       } catch (error) {
-        showToast(`Error de red: ${error.message}`);
+        showToast(`Network error: ${error.message}`);
       } finally {
         btnSaveSchema.disabled = false;
-        btnSaveSchema.textContent = 'Guardar solo schema';
+        btnSaveSchema.textContent = 'Save schema only';
       }
     });
 
     btnSubmit.addEventListener('click', async () => {
       const path = epPath.value.trim();
       if (!path) {
-        showToast('Path es obligatorio');
+        showToast('Path is required');
         return;
       }
       if (!selectedSchema() && !schemaForm.getName()) {
-        showToast('Nombre del schema obligatorio');
+        showToast('Schema name is required');
         return;
       }
       const definition = validDefinition();
 
       btnSubmit.disabled = true;
-      btnSubmit.textContent = 'Enviando...';
+      btnSubmit.textContent = 'Saving...';
       try {
         const response = await fetch(ENDPOINTS_API_URL, {
           method: 'POST',
@@ -278,12 +278,12 @@
           await loadSchemas();
           selectSchema(data.schema_id);
         }
-        showToast('Guardado correctamente');
+        showToast('Endpoint saved');
       } catch (error) {
-        showToast(`Error de red: ${error.message}`);
+        showToast(`Network error: ${error.message}`);
       } finally {
         btnSubmit.disabled = false;
-        btnSubmit.textContent = 'Guardar endpoint';
+        btnSubmit.textContent = 'Save endpoint';
       }
     });
 

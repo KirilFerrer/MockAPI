@@ -1,4 +1,4 @@
-# Simulates persistent mock resources from registered endpoints.
+"""Persistent collections backed by registered mock endpoints."""
 from dataclasses import dataclass
 from typing import Any, Mapping
 

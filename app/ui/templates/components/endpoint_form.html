@@ -1,16 +1,16 @@
 <div class="form-grid js-endpoint-form">
   <div>
     <div class="card">
-      <p class="card-title">Configuración</p>
+      <p class="card-title">Configuration</p>
 
       <div class="field">
-        <label>Nombre</label>
-        <input type="text" class="js-ep-name" placeholder="Nombre del endpoint"/>
+        <label>Name</label>
+        <input type="text" class="js-ep-name" placeholder="Endpoint name"/>
       </div>
 
       <div class="field row2">
         <div>
-          <label>Método</label>
+          <label>Method</label>
           <select class="js-ep-method">
             <option>GET</option>
             <option selected>POST</option>
@@ -26,8 +26,8 @@
       </div>
 
       <div class="field">
-        <label>Descripción</label>
-        <input type="text" class="js-ep-desc" placeholder="Qué hace este endpoint"/>
+        <label>Description</label>
+        <input type="text" class="js-ep-desc" placeholder="What this endpoint does"/>
       </div>
     </div>
 
@@ -35,11 +35,11 @@
       <p class="card-title">Schema</p>
 
       <div class="field">
-        <label>Plantilla</label>
+        <label>Template</label>
         <div class="schema-picker js-schema-picker">
-          <button class="schema-trigger js-schema-trigger" type="button">Crear nuevo schema</button>
+          <button class="schema-trigger js-schema-trigger" type="button">Create new schema</button>
           <div class="schema-menu">
-            <input class="schema-search js-schema-search" type="text" placeholder="Buscar schema"/>
+            <input class="schema-search js-schema-search" type="text" placeholder="Search schemas"/>
             <div class="schema-options js-schema-options"></div>
           </div>
         </div>
@@ -47,20 +47,20 @@
 
       {% include "components/schema_form.html" %}
 
-      <button class="btn-submit js-save-endpoint" type="button">Guardar endpoint</button>
+      <button class="btn-submit js-save-endpoint" type="button">Save endpoint</button>
     </div>
   </div>
 
   <div class="preview-column">
     <div class="card">
-      <p class="card-title">Contrato generado</p>
+      <p class="card-title">Generated contract</p>
       <pre class="preview-block js-preview">{}</pre>
       <details class="preview-advanced js-preview-advanced">
-        <summary>Usar editor JSON avanzado</summary>
-        <p class="preview-advanced-note">Solo para estructuras que no puedan definirse con los controles visuales.</p>
+        <summary>Advanced JSON editor</summary>
+        <p class="preview-advanced-note">Use this for structures that the visual editor does not support.</p>
         <textarea class="preview-json-input js-preview-json" spellcheck="false" rows="16"></textarea>
         <p class="schema-json-error js-preview-json-error" hidden></p>
-        <button class="btn-secondary js-apply-preview-json" type="button">Aplicar definición</button>
+        <button class="btn-secondary js-apply-preview-json" type="button">Apply definition</button>
       </details>
     </div>
   </div>

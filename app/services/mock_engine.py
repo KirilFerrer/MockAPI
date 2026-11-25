@@ -1,4 +1,4 @@
-# Builds mock responses from stored schemas.
+"""Generate mock responses from stored schemas."""
 from dataclasses import dataclass
 from typing import Any
 

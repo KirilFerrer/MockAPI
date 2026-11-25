@@ -5,25 +5,25 @@
         <summary>
           <span class="badge">{{ endpoint.method }}</span>
           <span class="ep-path">{{ endpoint.path }}</span>
-          <span class="ep-desc">{{ endpoint.name or endpoint.description or "sin nombre" }}</span>
+          <span class="ep-desc">{{ endpoint.name or endpoint.description or "Unnamed" }}</span>
         </summary>
 
         <div class="ep-panel expandable-panel">
           <div class="ep-panel-inner expandable-panel-inner">
             <div class="ep-detail">
               <div class="detail-box">
-                <p class="detail-title">Información</p>
+                <p class="detail-title">Details</p>
                 <dl class="detail-list">
                   <div>
                     <dt>ID</dt>
                     <dd>{{ endpoint.id }}</dd>
                   </div>
                   <div>
-                    <dt>Nombre</dt>
-                    <dd>{{ endpoint.name or "sin nombre" }}</dd>
+                    <dt>Name</dt>
+                    <dd>{{ endpoint.name or "Unnamed" }}</dd>
                   </div>
                   <div>
-                    <dt>Método</dt>
+                    <dt>Method</dt>
                     <dd>{{ endpoint.method }}</dd>
                   </div>
                   <div>
@@ -31,8 +31,8 @@
                     <dd>{{ endpoint.path }}</dd>
                   </div>
                   <div>
-                    <dt>Descripción</dt>
-                    <dd>{{ endpoint.description or "sin descripción" }}</dd>
+                    <dt>Description</dt>
+                    <dd>{{ endpoint.description or "No description" }}</dd>
                   </div>
                 </dl>
               </div>
@@ -48,5 +48,5 @@
     {% endfor %}
   </div>
 {% else %}
-  <div class="empty">Todavía no hay endpoints guardados.</div>
+  <div class="empty">No endpoints have been saved yet.</div>
 {% endif %}

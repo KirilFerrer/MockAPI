@@ -1,4 +1,4 @@
-# Semantic generators for enriching mock responses without new dependencies.
+"""Domain-specific generators for mock field values."""
 import re
 from dataclasses import dataclass
 from typing import Any, Callable

@@ -2,30 +2,30 @@
   const TYPES = ['string', 'integer', 'number', 'boolean'];
   const INTENTIONS = [
     {value: '', label: 'auto'},
-    {value: 'ops.case_title', label: 'caso: titulo'},
-    {value: 'ops.case_description', label: 'caso: descripcion'},
-    {value: 'ops.impact', label: 'caso: impacto'},
-    {value: 'ops.note', label: 'caso: nota'},
-    {value: 'ops.queue', label: 'ops: cola'},
+    {value: 'ops.case_title', label: 'case: title'},
+    {value: 'ops.case_description', label: 'case: description'},
+    {value: 'ops.impact', label: 'case: impact'},
+    {value: 'ops.note', label: 'case: note'},
+    {value: 'ops.queue', label: 'ops: queue'},
     {value: 'ops.sla', label: 'ops: sla'},
-    {value: 'asset.tag', label: 'activo: tag'},
-    {value: 'asset.hostname', label: 'activo: host'},
-    {value: 'asset.name', label: 'activo: nombre'},
-    {value: 'asset.serial', label: 'activo: serie'},
-    {value: 'asset.os', label: 'activo: sistema'},
-    {value: 'finance.invoice_number', label: 'finanzas: factura'},
-    {value: 'finance.purchase_order', label: 'finanzas: pedido'},
-    {value: 'finance.amount', label: 'finanzas: importe'},
-    {value: 'company.name', label: 'empresa'},
-    {value: 'person.employee_name', label: 'persona'},
-    {value: 'person.department', label: 'departamento'},
-    {value: 'person.team', label: 'equipo'},
-    {value: 'person.role', label: 'rol'},
-    {value: 'workflow.status', label: 'estado'},
-    {value: 'workflow.priority', label: 'prioridad'},
-    {value: 'general.title', label: 'titulo'},
-    {value: 'general.description', label: 'descripcion'},
-    {value: 'general.tag', label: 'etiqueta'}
+    {value: 'asset.tag', label: 'asset: tag'},
+    {value: 'asset.hostname', label: 'asset: hostname'},
+    {value: 'asset.name', label: 'asset: name'},
+    {value: 'asset.serial', label: 'asset: serial'},
+    {value: 'asset.os', label: 'asset: OS'},
+    {value: 'finance.invoice_number', label: 'finance: invoice'},
+    {value: 'finance.purchase_order', label: 'finance: purchase order'},
+    {value: 'finance.amount', label: 'finance: amount'},
+    {value: 'company.name', label: 'company'},
+    {value: 'person.employee_name', label: 'person'},
+    {value: 'person.department', label: 'department'},
+    {value: 'person.team', label: 'team'},
+    {value: 'person.role', label: 'role'},
+    {value: 'workflow.status', label: 'status'},
+    {value: 'workflow.priority', label: 'priority'},
+    {value: 'general.title', label: 'title'},
+    {value: 'general.description', label: 'description'},
+    {value: 'general.tag', label: 'tag'}
   ];
 
   function createSchemaForm(root, options) {
@@ -174,7 +174,7 @@
 
         const name = document.createElement('input');
         name.type = 'text';
-        name.placeholder = 'nombre';
+        name.placeholder = 'name';
         name.value = row.name;
         name.addEventListener('input', () => {
           row.name = name.value;
@@ -222,7 +222,7 @@
         const remove = document.createElement('button');
         remove.className = 'btn-del';
         remove.type = 'button';
-        remove.title = 'Eliminar';
+        remove.title = 'Remove';
         remove.textContent = 'x';
         remove.addEventListener('click', () => {
           rows = rows.filter(item => item.id !== row.id);
@@ -238,7 +238,7 @@
         const examples = document.createElement('input');
         examples.type = 'text';
         examples.spellcheck = false;
-        examples.placeholder = 'ejemplos';
+        examples.placeholder = 'examples';
         examples.value = row.examples;
         examples.title = row.examples;
         examples.addEventListener('input', () => {
@@ -262,7 +262,7 @@
         const pattern = document.createElement('input');
         pattern.type = 'text';
         pattern.spellcheck = false;
-        pattern.placeholder = 'patron';
+        pattern.placeholder = 'pattern';
         pattern.value = row.pattern;
         pattern.title = row.pattern;
         pattern.addEventListener('input', () => {
@@ -273,15 +273,15 @@
 
         const exampleField = helpField(
           examples,
-          'Valores separados por coma para elegir uno al azar. Tiene prioridad sobre enum, patron e intencion.'
+          'Comma-separated examples. A random example takes precedence over the enum, pattern and generator.'
         );
         const enumField = helpField(
           enumValues,
-          'Lista cerrada separada por coma. Tiene prioridad sobre patron e intencion.'
+          'Comma-separated allowed values. Takes precedence over the pattern and generator.'
         );
         const patternField = helpField(
           pattern,
-          'Patron rapido: ? genera letras y # genera numeros. Tiene prioridad sobre intencion. Ejemplos: INV-2026-####, AS-??-#### o TCK/###/??.'
+          'Pattern: ? generates a letter and # generates a digit. Takes precedence over the generator. Examples: INV-2026-####, AS-??-#### or TCK/###/??.'
         );
 
         extra.append(exampleField, enumField, patternField);
@@ -294,7 +294,7 @@
         const advanced = document.createElement('details');
         advanced.className = 'schema-row-advanced';
         const advancedSummary = document.createElement('summary');
-        advancedSummary.textContent = 'Configuracion adicional';
+        advancedSummary.textContent = 'Additional options';
         advanced.append(advancedSummary, extra);
 
         wrapper.append(main, advanced);

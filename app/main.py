@@ -1,4 +1,4 @@
-# Creates the FastAPI application, initializes resources, and registers routers.
+"""FastAPI application setup and startup."""
 from contextlib import asynccontextmanager
 
 from app.routing import router as app_routing
@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title=settings.app_name, lifespan=lifespan)
 if settings.cors_origins:
-    # Only explicitly trusted frontend origins can call the unauthenticated local API.
+    # Enable cross-origin browser requests only for configured origins.
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,

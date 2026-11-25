@@ -1,8 +1,8 @@
-# mockAPI
+# MockAPI
 
-**A local HTTP API simulator built with Python and FastAPI.** Define an endpoint and a response schema, then call it as though the backend already existed. The response is generated with realistic fake data, without calling an external service.
+A local HTTP API simulator built with Python and FastAPI. Define endpoints and response schemas, then call them to generate sample data without an external backend.
 
-This began as a Python specialization project to explore HTTP APIs, schema-driven data generation and frontend/backend separation. It is a **development and prototyping tool**, not an API gateway or a production-ready service.
+I started this project during my Python specialization course to explore HTTP APIs and schema-driven data generation. It is intended for local development and prototyping.
 
 ## What it does
 
@@ -13,7 +13,7 @@ This began as a Python specialization project to explore HTTP APIs, schema-drive
 - Persist basic collection state in SQLite for GET, POST, PUT, PATCH and DELETE workflows when the relevant endpoints are registered.
 - Filter and paginate mock collections; reset their stored state to generate fresh samples.
 
-**Stack:** Python 3.13+, FastAPI, SQLAlchemy, SQLite, Pydantic Settings, Faker, Jinja2 and vanilla JavaScript.
+**Stack:** Python 3.13+, FastAPI, Pydantic, SQLAlchemy, SQLite, Faker, Jinja2 and vanilla JavaScript.
 
 ## Run locally
 
@@ -77,12 +77,12 @@ Browser / HTTP client
                         +-- persisted collection state (when applicable)
 ~~~
 
-The main code boundaries are:
+Repository structure:
 
 | Directory | Responsibility |
 | --- | --- |
 | `app/api/` | Admin endpoints and dynamic mock HTTP requests |
-| `app/services/` | Contract registration, response generation and collection behavior |
+| `app/services/` | Endpoint registration, response generation and collection state |
 | `app/storage/` | SQLAlchemy models, sessions and repository queries |
 | `app/web/` | Routes that render the browser UI |
 | `app/ui/` | Jinja2 templates, CSS and lightweight JavaScript |
@@ -95,11 +95,11 @@ A registered GET endpoint returning an array (or an object with an `items`, `tic
 
 Initialization is tracked separately from the stored items: deleting every item leaves the collection empty. `POST /api/mock-state/reset` clears state globally or for a specific `resource_path`, so the next read generates new samples. Query parameters other than `limit` and `offset` filter on exact string values.
 
-The schema format is deliberately *JSON-Schema-like*, **not** a full JSON Schema implementation. Invalid request bodies are not validated against response definitions.
+Response definitions use a subset of JSON Schema. The server does not validate request bodies against these definitions.
 
 ## Configuration and safety
 
-By default the server is intended for **local development**. It has **no authentication or authorization**: anyone with network access to it can change endpoint definitions and reset state. Do not expose the admin API or this server directly on a public network.
+The server has no authentication or authorization. Anyone with network access can change endpoint definitions and reset collection state. Do not expose it directly to a public network.
 
 Copy `app/.env.example` to `app/.env` to configure it. Cross-origin browser access is disabled by default; explicitly set a trusted development origin when a frontend on another port needs it:
 
@@ -110,7 +110,6 @@ DB_NAME=mockapi.db
 
 CORS controls browser requests; it is **not** an authentication or network security mechanism. Bind to loopback for local use.
 
+## Limitations
 
-## Project boundaries
-
-This project intentionally does not implement a reverse proxy, request history, user accounts, complex response scenarios, database migrations or complete JSON Schema validation. Its purpose is to provide a focused API mocking workflow while demonstrating Python backend design, persistence, routing, HTTP behavior and a small UI.
+MockAPI does not currently support request history, user accounts, complex response scenarios, database migrations or full JSON Schema validation. It is not a reverse proxy.

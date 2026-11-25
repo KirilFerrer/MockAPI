@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -12,7 +12,7 @@
 
 <nav>
   <a href="/web/" class="logo">mockAPI</a>
-  <a href="/web/" class="{% if current_path == '/web/' %}active{% endif %}">vista general</a>
+  <a href="/web/" class="{% if current_path == '/web/' %}active{% endif %}">overview</a>
   <a href="/web/endpoints" class="{% if current_path.startswith('/web/endpoints') or current_path.startswith('/web/create_endpoint_form') %}active{% endif %}">endpoints</a>
   <a href="/web/schemas" class="{% if current_path.startswith('/web/schemas') %}active{% endif %}">schemas</a>
 </nav>

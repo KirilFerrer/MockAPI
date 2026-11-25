@@ -1,4 +1,4 @@
-# Configures the SQLAlchemy connection, sessions, and table creation.
+"""Database engine, sessions and table initialization."""
 from importlib import import_module
 
 from sqlalchemy import create_engine
